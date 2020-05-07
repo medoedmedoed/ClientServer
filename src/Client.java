@@ -11,23 +11,26 @@ public class Client {
         //BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+        String mess = "Connect";
 
         while (true) {
-
-            System.out.println("Enter message:");
-            String mess = sc.nextLine();
 
             out.write(mess + "\n");
             out.flush();
 
+
             String str = in.readLine();
-            //if(mess.equals("exit")) break;
-            if(str.equals("GoodBye")) break;
             System.out.println(str);
+
+            if(str.equals("GoodBye!")) break;
+
+            mess = sc.nextLine();
+
+
         }
         in.close();
         out.close();
         socket.close();
-        System.out.println("Goodbye!");
+        return;
     }
 }
