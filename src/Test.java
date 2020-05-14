@@ -305,7 +305,6 @@ public class Test {
         out.write("Стоп" + "\n");
         out.flush();
         str = in.readLine();
-        System.out.println(str);
         if(str.equals("Словарь пуст. Введите Сообщение:"))
             System.out.println("Успешно!");
         else{
