@@ -10,17 +10,20 @@ public class Test {
         System.out.println("Добро пожаловать в раздел тестирования!\n_______________________________________");
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+        int counter = 0;
 
         while (true) {
-            if(!connectTest(in,out)) break;
-            if(!addTest(in,out)) break;
-            if(!watchKeyTest(in,out)) break;
-            if(!watchAnagramTest(in,out)) break;
-            if(!startGameTest(in,out)) break;
-            if(!deleteAnagramTest(in,out)) break;
-            if(!deleteWordTest(in,out)) break;
-            if(!clearTest(in,out)) break;
-            exitTest(in,out);
+            if(connectTest(in,out))counter++;
+            else break;
+            if(addTest(in,out)) counter++;
+            if(watchKeyTest(in,out)) counter++;
+            if(watchAnagramTest(in,out)) counter++;
+            if(startGameTest(in,out)) counter++;
+            if(deleteAnagramTest(in,out)) counter++;
+            if(deleteWordTest(in,out)) counter++;
+            if(clearTest(in,out)) counter++;
+            if(exitTest(in,out)) counter++;;
+            System.out.println("Тестирование прошло " + counter + " из 9 функций");
             break;
         }
         in.close();
@@ -323,14 +326,18 @@ public class Test {
         }
     }
 
-    public static void exitTest(BufferedReader in, BufferedWriter out) throws IOException {
+    public static boolean exitTest(BufferedReader in, BufferedWriter out) throws IOException {
         System.out.println("Запущена проверка функции exit ...");
         out.write("exit" + "\n");
         out.flush();
         String str = in.readLine();
-        if(str.equals("GoodBye!"))
+        if(str.equals("GoodBye!")){
             System.out.println("Функция exit прошла проверку!\n_______________________________________\nТестирование завершено");
-        else
+            return true;
+        }
+        else{
             System.out.println("Ошибка в работе функции exit!\n_______________________________________\nТестирование завершено");
+            return false;
+        }
     }
 }
