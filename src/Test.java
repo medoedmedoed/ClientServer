@@ -12,14 +12,14 @@ public class Test {
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
         while (true) {
-            connectTest(in,out);
-            addTest(in,out);
-            watchKeyTest(in,out);
-            watchAnagramTest(in,out);
-            startGameTest(in,out);
-            deleteAnagramTest(in,out);
-            deleteWordTest(in,out);
-            clearTest(in,out);
+            if(!connectTest(in,out)) break;
+            if(!addTest(in,out)) break;
+            if(!watchKeyTest(in,out)) break;
+            if(!watchAnagramTest(in,out)) break;
+            if(!startGameTest(in,out)) break;
+            if(!deleteAnagramTest(in,out)) break;
+            if(!deleteWordTest(in,out)) break;
+            if(!clearTest(in,out)) break;
             exitTest(in,out);
             break;
         }
@@ -30,19 +30,24 @@ public class Test {
 
     }
 
-    public static void connectTest(BufferedReader in, BufferedWriter out) throws IOException {
-        System.out.println("Тестирование запущено\nЗапущена проверка функции Connect ...");
+    public static boolean connectTest(BufferedReader in, BufferedWriter out) throws IOException {
+        System.out.println("Тестирование запущено\nПодключение к серверу ...");
         out.write("Connect" + "\n");
         out.flush();
         String str = in.readLine();
-        if(str.equals("Введите сообщение:"))
-            System.out.println("Функция Connect прошла проверку!\n_______________________________________");
-        else
-            System.out.println("Ошибка в работе функции Connect!\n_______________________________________");
+        if(str.equals("Введите сообщение:")){
+            System.out.println("Подключение выполнено успешно!\n_______________________________________");
+            return true;
+        }
+        else{
+            System.out.println("Не удалось подключиться к серверу!\n_______________________________________");
+            return false;
+        }
+
     }
 
-    public static void addTest(BufferedReader in, BufferedWriter out) throws IOException {
-        System.out.println("Запущена проверка функции add ...");
+    public static boolean addTest(BufferedReader in, BufferedWriter out) throws IOException {
+        System.out.println("Запущена проверка функции add ...\nПервый этап...");
         out.write("add" + "\n");
         out.flush();
         String str = in.readLine();
@@ -53,55 +58,134 @@ public class Test {
         out.flush();
         str = in.readLine();
         if(str.equals("Пара слово-анаграмма успешно добавлена. Введите сообщение:"))
-            System.out.println("Функция add прошла проверку!\n_______________________________________");
-        else
+            System.out.println("Успешно!");
+        else{
             System.out.println("Ошибка в работе функции add!\n_______________________________________");
+            return false;
+        }
+        System.out.println("Второй этап...");
+        out.write("add" + "\n");
+        out.flush();
+        str = in.readLine();
+        out.write("Стоп" + "\n");
+        out.flush();
+        str = in.readLine();
+        out.write("Пост" + "\n");
+        out.flush();
+        str = in.readLine();
+        if(str.equals("Такая анаграмма уже есть. Введите сообщение:"))
+            System.out.println("Успешно!");
+        else{
+            System.out.println("Ошибка в работе функции add!\n_______________________________________");
+            return false;
+        }
+        System.out.println("Третий этап...");
+        out.write("add" + "\n");
+        out.flush();
+        str = in.readLine();
+        out.write("Стоп" + "\n");
+        out.flush();
+        str = in.readLine();
+        out.write("Остп" + "\n");
+        out.flush();
+        str = in.readLine();
+        if(str.equals("Анаграмма успешно добавлена. Введите сообщение:")){
+            System.out.println("Успешно!\nФункция add прошла проверку!\n_______________________________________");
+            return true;
+        }
+        else{
+            System.out.println("Ошибка в работе функции add!\n_______________________________________");
+            return false;
+        }
     }
 
-    public static void watchKeyTest(BufferedReader in, BufferedWriter out) throws IOException {
+    public static boolean watchKeyTest(BufferedReader in, BufferedWriter out) throws IOException {
         System.out.println("Запущена проверка функции watch key ...");
         out.write("watch key" + "\n");
         out.flush();
         String str = in.readLine();
-        if(str.equals("[Стоп]. Введите сообщение:"))
+        if(str.equals("[Стоп]. Введите сообщение:")){
             System.out.println("Функция watch key прошла проверку!\n_______________________________________");
-        else
+            return true;
+        }
+        else{
             System.out.println("Ошибка в работе функции watch key!\n_______________________________________");
+            return false;
+        }
     }
 
-    public static void watchAnagramTest(BufferedReader in, BufferedWriter out) throws IOException {
-        System.out.println("Запущена проверка функции watch anagram ...");
+    public static boolean watchAnagramTest(BufferedReader in, BufferedWriter out) throws IOException {
+        System.out.println("Запущена проверка функции watch anagram ...\nПервый этап...");
         out.write("watch anagram" + "\n");
         out.flush();
         String str = in.readLine();
         out.write("Стоп" + "\n");
         out.flush();
         str = in.readLine();
-        if(str.equals("[Пост]. Введите сообщение:"))
-            System.out.println("Функция watch anagram прошла проверку!\n_______________________________________");
-        else
+        if(str.equals("[Пост, Остп]. Введите сообщение:"))
+            System.out.println("Успешно!");
+        else{
             System.out.println("Ошибка в работе функции watch anagram!\n_______________________________________");
+            return false;
+        }
+        System.out.println("Второй этап...");
+        out.write("watch anagram" + "\n");
+        out.flush();
+        str = in.readLine();
+        out.write("Ошибка" + "\n");
+        out.flush();
+        str = in.readLine();
+        if(str.equals("Слово не найдено. Введите Сообщение:")){
+            System.out.println("Успешно!\nФункция watch anagram прошла проверку!\n_______________________________________");
+            return true;
+        }
+        else{
+            System.out.println("Ошибка в работе функции watch anagram!\n_______________________________________");
+            return false;
+        }
     }
 
-    public static void startGameTest(BufferedReader in, BufferedWriter out) throws IOException {
-        System.out.println("Запущена проверка функции start ...");
+    public static boolean startGameTest(BufferedReader in, BufferedWriter out) throws IOException {
+        System.out.println("Запущена проверка функции start ...\nПервый этап...");
         out.write("start" + "\n");
         out.flush();
         String str = in.readLine();
+        out.write("Ошибка" + "\n");
+        out.flush();
+        str = in.readLine();
+        System.out.println(str);
+        if(str.equals("Попробуйте снова: "))
+            System.out.println("Успешно!");
+        else{
+            System.out.println("Ошибка в работе функции start!\n_______________________________________");
+            out.write("stop game" + "\n");
+            out.flush();
+            str = in.readLine();
+            return false;
+        }
+        System.out.println("Второй этап");
         out.write("Пост" + "\n");
         out.flush();
         str = in.readLine();
-        if(str.equals("Правильно! Введите анаграмму к слову Стоп:"))
+        if(str.equals("Правильно! Введите анаграмму к слову Стоп:")){
             System.out.println("Функция start прошла проверку!\n_______________________________________");
-        else
+            out.write("stop game" + "\n");
+            out.flush();
+            str = in.readLine();
+            return true;
+        }
+
+        else{
             System.out.println("Ошибка в работе функции start!\n_______________________________________");
-        out.write("stop game" + "\n");
-        out.flush();
-        str = in.readLine();
+            out.write("stop game" + "\n");
+            out.flush();
+            str = in.readLine();
+            return false;
+        }
     }
 
-    public static void deleteAnagramTest(BufferedReader in, BufferedWriter out) throws IOException {
-        System.out.println("Запущена проверка функции delete anagram ...");
+    public static boolean deleteAnagramTest(BufferedReader in, BufferedWriter out) throws IOException {
+        System.out.println("Запущена проверка функции delete anagram ...\nПервый этап...");
         out.write("delete anagram" + "\n");
         out.flush();
         String str = in.readLine();
@@ -112,34 +196,131 @@ public class Test {
         out.flush();
         str = in.readLine();
         if(str.equals("Анаграмма успешно удалена. Введите сообщение:"))
-            System.out.println("Функция delete anagram прошла проверку!\n_______________________________________");
-        else
+            System.out.println("Успешно!");
+        else{
             System.out.println("Ошибка в работе функции delete anagram!\n_______________________________________");
+            return false;
+        }
+        System.out.println("Второй этап...");
+        out.write("delete anagram" + "\n");
+        out.flush();
+        str = in.readLine();
+        out.write("Стоп" + "\n");
+        out.flush();
+        str = in.readLine();
+        out.write("Пост" + "\n");
+        out.flush();
+        str = in.readLine();
+        if(str.equals("Анаграмма не найдена. Введите сообщение:")){
+            System.out.println("Успешно!\nФункция delete anagram прошла проверку!\n_______________________________________");
+            return true;
+        }
+        else{
+            System.out.println("Ошибка в работе функции delete anagram!\n_______________________________________");
+            return false;
+        }
     }
 
-    public static void deleteWordTest(BufferedReader in, BufferedWriter out) throws IOException {
-        System.out.println("Запущена проверка функции delete word ...");
+    public static boolean deleteWordTest(BufferedReader in, BufferedWriter out) throws IOException {
+        System.out.println("Запущена проверка функции delete word ...\nПервый этап...");
         out.write("delete word" + "\n");
+        out.flush();
+        String str = in.readLine();
+        out.write("Ошибка" + "\n");
+        out.flush();
+        str = in.readLine();
+        if(str.equals("Слово не найдено. Введите сообщение:"))
+            System.out.println("Успешно!");
+        else{
+            System.out.println("Ошибка в работе функции delete word!\n_______________________________________");
+            return false;
+        }
+        System.out.println("Второй этап...");
+        out.write("delete word" + "\n");
+        out.flush();
+        str = in.readLine();
+        out.write("Стоп" + "\n");
+        out.flush();
+        str = in.readLine();
+        if(str.equals("Слово успешно удалено. Введите сообщение:")){
+            System.out.println("Успешно!\nФункция delete word прошла проверку!\n_______________________________________");
+            return true;
+        }
+        else{
+            System.out.println("Ошибка в работе функции delete word!\n_______________________________________");
+            return false;
+        }
+    }
+
+    public static boolean clearTest(BufferedReader in, BufferedWriter out) throws IOException {
+        System.out.println("Запущена проверка функции clear ...\nПервый этап...");
+        out.write("add" + "\n");
         out.flush();
         String str = in.readLine();
         out.write("Стоп" + "\n");
         out.flush();
         str = in.readLine();
-        if(str.equals("Слово успешно удалено. Введите сообщение:"))
-            System.out.println("Функция delete word прошла проверку!\n_______________________________________");
-        else
-            System.out.println("Ошибка в работе функции delete word!\n_______________________________________");
-    }
-
-    public static void clearTest(BufferedReader in, BufferedWriter out) throws IOException {
-        System.out.println("Запущена проверка функции clear ...");
+        out.write("Пост" + "\n");
+        out.flush();
+        str = in.readLine();
         out.write("clear" + "\n");
         out.flush();
-        String str = in.readLine();
-        if(str.equals("Словарь уже пуст. Введите сообщение:"))
-            System.out.println("Функция clear прошла проверку!\n_______________________________________");
-        else
+        str = in.readLine();
+        if(str.equals("Словарь успешно очищен. Введите сообщение:"))
+            System.out.println("Успешно!");
+        else{
             System.out.println("Ошибка в работе функции clear!\n_______________________________________");
+            return false;
+        }
+        System.out.println("Второй этап...");
+        out.write("clear" + "\n");
+        out.flush();
+        str = in.readLine();
+        if(str.equals("Словарь уже пуст. Введите сообщение:"))
+            System.out.println("Успешно!");
+        else{
+            System.out.println("Ошибка в работе функции clear!\n_______________________________________");
+            return false;
+        }
+        System.out.println("Третий этап...");
+        out.write("delete word" + "\n");
+        out.flush();
+        str = in.readLine();
+        out.write("Стоп" + "\n");
+        out.flush();
+        str = in.readLine();
+        if(str.equals("Словарь пуст. Введите сообщение:"))
+            System.out.println("Успешно!");
+        else{
+            System.out.println("Ошибка в работе функции clear!\n_______________________________________");
+            return false;
+        }
+        System.out.println("Четвертый этап...");
+        out.write("watch anagram" + "\n");
+        out.flush();
+        str = in.readLine();
+        out.write("Стоп" + "\n");
+        out.flush();
+        str = in.readLine();
+        System.out.println(str);
+        if(str.equals("Словарь пуст. Введите Сообщение:"))
+            System.out.println("Успешно!");
+        else{
+            System.out.println("Ошибка в работе функции clear!\n_______________________________________");
+            return false;
+        }
+        System.out.println("Пятый этап...");
+        out.write("watch key" + "\n");
+        out.flush();
+        str = in.readLine();
+        if(str.equals("Словарь пуст. Введите Сообщение:")){
+            System.out.println("Успешно!\nФункция clear прошла проверку!\n_______________________________________");
+            return true;
+        }
+        else{
+            System.out.println("Ошибка в работе функции clear!\n_______________________________________");
+            return false;
+        }
     }
 
     public static void exitTest(BufferedReader in, BufferedWriter out) throws IOException {
@@ -148,8 +329,8 @@ public class Test {
         out.flush();
         String str = in.readLine();
         if(str.equals("GoodBye!"))
-            System.out.println("Функция exit прошла проверку!\nТестирование завершено\n_______________________________________");
+            System.out.println("Функция exit прошла проверку!\n_______________________________________\nТестирование завершено");
         else
-            System.out.println("Ошибка в работе функции exit!\nТестирование завершено\n_______________________________________");
+            System.out.println("Ошибка в работе функции exit!\n_______________________________________\nТестирование завершено");
     }
 }
