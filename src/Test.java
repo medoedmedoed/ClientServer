@@ -59,7 +59,7 @@ public class Test {
     }
 
     public static void watchKeyTest(BufferedReader in, BufferedWriter out) throws IOException {
-        System.out.println("Запущена проверка функции watch key ...");
+        System.out.println("Запущена проверка функции watch key ... ");
         out.write("watch key" + "\n");
         out.flush();
         String str = in.readLine();
