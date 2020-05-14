@@ -34,7 +34,7 @@ public class Test {
     }
 
     public static boolean connectTest(BufferedReader in, BufferedWriter out) throws IOException {
-        System.out.println("Тестирование запущено\nПодключение к серверу ... ");
+        System.out.println("Тестирование запущено\nПодключение к серверу ...");
         out.write("Connect" + "\n");
         out.flush();
         String str = in.readLine();
