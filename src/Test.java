@@ -1,5 +1,9 @@
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Test {
@@ -10,22 +14,25 @@ public class Test {
         System.out.println("Добро пожаловать в раздел тестирования!\n_______________________________________");
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+        HashMap<String, ArrayList<String>> list = new HashMap<>();
         int counter = 0;
-
+        Server server = new Server();
+        readFile(list);
         while (true) {
             if(connectTest(in,out))counter++;
             else break;
+            if(clearTest(in,out)) counter++;
             if(addTest(in,out)) counter++;
             if(watchKeyTest(in,out)) counter++;
             if(watchAnagramTest(in,out)) counter++;
             if(startGameTest(in,out)) counter++;
             if(deleteAnagramTest(in,out)) counter++;
             if(deleteWordTest(in,out)) counter++;
-            if(clearTest(in,out)) counter++;
             if(exitTest(in,out)) counter++;;
             System.out.println("Тестирование прошло " + counter + " из 9 функций");
             break;
         }
+        writeFile(list);
         in.close();
         out.close();
         socket.close();
@@ -337,6 +344,37 @@ public class Test {
         else{
             System.out.println("Ошибка в работе функции exit!\n_______________________________________\nТестирование завершено");
             return false;
+        }
+    }
+
+    public static String writeFile(HashMap<String, ArrayList<String>> list){
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("dictionary.txt", false));
+            for (Map.Entry entry: list.entrySet()) {
+                writer.write(entry.getKey().toString() + " - " + entry.getValue().toString().substring(1, entry.getValue().toString().length() - 1) + "\n");
+                writer.flush();
+            }
+            return "Запись завершена.";
+        } catch (IOException e) {
+            e.getStackTrace();
+            return "Ошибка записи.";
+        }
+    }
+    public static String readFile(HashMap<String, ArrayList<String>> list){
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("Test.txt"));
+            String line = reader.readLine();
+            while (line != null) {
+                String[] arrSplit = line.split(" - ");
+                ArrayList<String> listValue = new ArrayList<String>(Arrays.asList(arrSplit[1].split(",")));
+                for(int i = 1 ; i < arrSplit.length ; ++i)
+                    list.put(arrSplit[0], listValue);
+                line = reader.readLine();
+            }
+            return "Чтение завершено.";
+        } catch (IOException e) {
+            e.getStackTrace();
+            return "Ошибка чтения.";
         }
     }
 }
