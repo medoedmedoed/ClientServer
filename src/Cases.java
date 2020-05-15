@@ -4,19 +4,19 @@ import java.util.*;
 public class Cases {
     public static String readFile(HashMap<String, ArrayList<String>> list){
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("dictionary.txt"));
-            String line = reader.readLine();
-            while (line != null) {
-                String[] arrSplit = line.split(" - ");
-                ArrayList<String> listValue = new ArrayList<String>(Arrays.asList(arrSplit[1].split(",")));
+            BufferedReader reader = new BufferedReader(new FileReader("dictionary.txt")); //буферизированная переменная для чтения из файла
+            String line = reader.readLine(); //считываем первую строку файла
+            while (line != null) {              //пока не встретим пустую строку(конец файла)
+                String[] arrSplit = line.split(" - ");  //разбиваем строку на ключ - значения
+                ArrayList<String> listValue = new ArrayList<String>(Arrays.asList(arrSplit[1].split(",")));  //разбиваем значения на отдельные слова и записываем в динамический массив
                 for(int i = 1 ; i < arrSplit.length ; ++i)
-                    list.put(arrSplit[0], listValue);
-                line = reader.readLine();
+                    list.put(arrSplit[0], listValue);       //заполняем словарь значениями
+                line = reader.readLine();          //считываем следующую строчку
             }
-            return "Чтение завершено.";
+            return "Чтение завершено.";         //возвращаем сообщение на сервер
         } catch (IOException e) {
-            e.getStackTrace();
-            return "Ошибка чтения.";
+            e.getStackTrace();                  //вывод ошибки
+            return "Ошибка чтения.";            //возвращаем сообщение на сервер
         }
     }
 

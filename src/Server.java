@@ -5,7 +5,7 @@ import java.util.*;
 public class Server {
     public static void main(String[] args) throws IOException {
 
-        ServerSocket serverSocket = new ServerSocket(8080);             //серверсокет прослушивает порт 8080
+        ServerSocket serverSocket = new ServerSocket(8080);              //серверсокет прослушивает порт 8080
         HashMap<String, ArrayList<String>> list = new HashMap<>();            //экземпляр, в котором будет храниться словарь.
                                                                                 //представляетс собой струкруту ключ-значение
         ArrayList<String> listVal = new ArrayList<String>();                        //экземпляр динамического мамассива, в который будут записываться значения словаря

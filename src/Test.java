@@ -360,6 +360,7 @@ public class Test {
             return "Ошибка записи.";
         }
     }
+
     public static String readFile(HashMap<String, ArrayList<String>> list){
         try {
             BufferedReader reader = new BufferedReader(new FileReader("dictionary.txt"));
