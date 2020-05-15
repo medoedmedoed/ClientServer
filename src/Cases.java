@@ -1,7 +1,39 @@
-import java.lang.reflect.Array;
+import java.io.*;
 import java.util.*;
 
 public class Cases {
+    public static String readFile(HashMap<String, ArrayList<String>> list){
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("dictionary.txt"));
+            String line = reader.readLine();
+            while (line != null) {
+                String[] arrSplit = line.split(" - ");
+                ArrayList<String> listValue = new ArrayList<String>(Arrays.asList(arrSplit[1].split(",")));
+                for(int i = 1 ; i < arrSplit.length ; ++i)
+                    list.put(arrSplit[0], listValue);
+                line = reader.readLine();
+            }
+            return "Чтение завершено.";
+        } catch (IOException e) {
+            e.getStackTrace();
+            return "Ошибка чтения.";
+        }
+    }
+
+    public static String writeFile(HashMap<String, ArrayList<String>> list){
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("dictionary.txt", false));
+            for (Map.Entry entry: list.entrySet()) {
+                writer.write(entry.getKey().toString() + " - " + entry.getValue().toString().substring(1, entry.getValue().toString().length() - 1) + "\n");
+                writer.flush();
+            }
+            return "Запись завершена.";
+        } catch (IOException e) {
+            e.getStackTrace();
+            return "Ошибка записи.";
+        }
+    }
+
     public static String watchKey(HashMap<String, ArrayList<String>> list) {
         if(!list.isEmpty()){
             Set keySet = list.keySet();
@@ -40,7 +72,6 @@ public class Cases {
         }
     }
 
-
     public static String delWord(HashMap<String, ArrayList<String>> list, String key){
         if(!list.isEmpty())
         {
@@ -55,7 +86,6 @@ public class Cases {
         else return "Словарь пуст. Введите сообщение:\n";
     }
 
-
     public static String delAnagram(HashMap<String,ArrayList<String>> list, String key, String anagram){
         if(list.containsKey(key)){
             ArrayList<String> listValue = new ArrayList<String>(list.get(key));
@@ -67,7 +97,6 @@ public class Cases {
         }
         else return "Слово не найдено. Введите сообщение:\n";
     }
-
 
     public static String clear(HashMap<String,ArrayList<String>> list){
         if(!list.isEmpty()) {

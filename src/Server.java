@@ -5,30 +5,31 @@ import java.util.*;
 public class Server {
     public static void main(String[] args) throws IOException {
 
-        ServerSocket serverSocket = new ServerSocket(8080);
+        ServerSocket serverSocket = new ServerSocket(8080); //серверсокет прослушивает порт 8080
+        HashMap<String, ArrayList<String>> list = new HashMap<>();  //экземпляр, в котором будет храниться словарь.
+                                                                    //представляетс собой струкруту ключ-значение
+        ArrayList<String> listVal = new ArrayList<String>();    //экземпляр динамического мамассива, в который будут записываться значения словаря
+        String key; //переменная для доступа к словарю
+        String mess;    //переменная для записи сообщения от клиента
+        String anagram;     //переменная для анаграммы
+        Cases cases = new Cases();     //экземпляр класса, в котором хранятся все методы обработки словаря
+        System.out.println(cases.readFile(list));   //вызов метода, в котором идет заполнение переменной list
+                                                    // и вывод успешного\ошибочного чтения из файла
+        System.out.println(list + "\n__________________________________________________");
         System.out.println("Server started");
-        Socket clientSocket = serverSocket.accept();
+        Socket clientSocket = serverSocket.accept();    //сервер ждет подключения
+        //буферизированные переменные для общения клиента с сервером
+        BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); //чтение
+        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream())); //запись
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-        Cases cases = new Cases();
+        while(true) {         //беспонечный цикл работы сервера
+            mess = in.readLine();   //считываем сообщение от клиента
+            System.out.println("__________________________________________________\n" + mess);
 
-        ArrayList<String> listVal = new ArrayList<String>();
-        HashMap<String, ArrayList<String>> list = new HashMap<>();
-        String key;
-        String mess;
-        String anagram;
-
-        while(true) {
-
-            System.out.println(list + "\n__________________________________________________");
-            mess = in.readLine();
-            System.out.println(mess);
-
-            switch (mess){
-                case "Connect":{
+            switch (mess){      //обработка сообщения и выбор действия
+                case "Connect":{    //начальное сообщение от клиента сигнализирующее, что клиент подключился и готов к общению
                     out.write("Введите сообщение:\n");
-                    out.flush();
+                    out.flush();    //выталкиваем все из буфера
                     break;
                 }
                 case "start":{
@@ -118,11 +119,12 @@ public class Server {
                     in.close();
                     out.close();
                     serverSocket.close();
+                    System.out.println(cases.writeFile(list));
                     System.out.println("Server stop!");
                     return;
                 }
                 default: {
-                    out.write("Ваше сообщение:" + mess + "\n");
+                    out.write("Ваше сообщение:\"" + mess + "\". Введите сообщение:\n");
                     out.flush();
                 }
             }
