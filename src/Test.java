@@ -362,7 +362,7 @@ public class Test {
     }
     public static String readFile(HashMap<String, ArrayList<String>> list){
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("Test.txt"));
+            BufferedReader reader = new BufferedReader(new FileReader("dictionary.txt"));
             String line = reader.readLine();
             while (line != null) {
                 String[] arrSplit = line.split(" - ");
