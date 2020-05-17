@@ -10,48 +10,47 @@ public class Test {
 
     public static void main(String[] args) throws IOException {
 
-        Socket socket = new Socket("localhost",8080);
+        Socket socket = new Socket("localhost",8080);                                                           // настройка сокет-связи
         System.out.println("Добро пожаловать в раздел тестирования!\n_______________________________________");
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        HashMap<String, ArrayList<String>> list = new HashMap<>();
-        int counter = 0;
-        Server server = new Server();
-        readFile(list);
-        while (true) {
-            if(connectTest(in,out))counter++;
-            else break;
-            if(clearTest(in,out)) counter++;
-            if(addTest(in,out)) counter++;
-            if(watchKeyTest(in,out)) counter++;
-            if(watchAnagramTest(in,out)) counter++;
-            if(startGameTest(in,out)) counter++;
-            if(deleteAnagramTest(in,out)) counter++;
-            if(deleteWordTest(in,out)) counter++;
-            if(exitTest(in,out)) counter++;;
+        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));                            // буфер для чтения данных
+        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));                         // буфер для записи данных
+        HashMap<String, ArrayList<String>> list = new HashMap<>();                                                         // экземпляр, служащий для хранения данных словаря
+        int counter = 0;                                                                                                   // счетчик, для количества успешно проведенных тестов
+        readFile(list);                                                                                                    // считывание информации из словаря, для ее сохранения во время проведения тестирования
+        while (true) {                                                                                                     // Начало работы с сервером
+            if(connectTest(in,out))counter++;                                                                              // Тест функции Connect
+            else break;                                                                                                    // В случае ошибки в этой функции заканчиваем сеанс работы с сервером
+            if(clearTest(in,out)) counter++;                                                                               // Проверка функции clear
+            if(addTest(in,out)) counter++;                                                                                 // Проверка функции add
+            if(watchKeyTest(in,out)) counter++;                                                                            // Проверка функции watch key
+            if(watchAnagramTest(in,out)) counter++;                                                                        // Проверка функции watch anagram
+            if(startGameTest(in,out)) counter++;                                                                           // Проверка функции start game
+            if(deleteAnagramTest(in,out)) counter++;                                                                       // Проверка функции delete anagram
+            if(deleteWordTest(in,out)) counter++;                                                                          // Проверка функции delete word
+            if(exitTest(in,out)) counter++;;                                                                               // Проверка функции exit
             System.out.println("Тестирование прошло " + counter + " из 9 функций");
             break;
         }
-        writeFile(list);
-        in.close();
+        writeFile(list);                                                                                                   // Запись данных в словарь после проведения тестирования
+        in.close();                                                                                                        // закрытие буферов
         out.close();
-        socket.close();
+        socket.close();                                                                                                    // окончание сокет-связи
         return;
 
     }
 
     public static boolean connectTest(BufferedReader in, BufferedWriter out) throws IOException {
         System.out.println("Тестирование запущено\nПодключение к серверу ...");
-        out.write("Connect" + "\n");
-        out.flush();
-        String str = in.readLine();
-        if(str.equals("Введите сообщение:")){
+        out.write("Connect" + "\n");                                                                                    // передача команды на сервер
+        out.flush();                                                                                                        // очистка буфера
+        String str = in.readLine();                                                                                         // получаем ответ от сервера
+        if(str.equals("Введите сообщение:")){                                                                               // обработка ответа от сервера
             System.out.println("Подключение выполнено успешно!\n_______________________________________");
-            return true;
+            return true;                                                                                                    // тестирование прошло
         }
         else{
             System.out.println("Не удалось подключиться к серверу!\n_______________________________________");
-            return false;
+            return false;                                                                                                   // тестирование не прошло
         }
 
     }
@@ -360,6 +359,7 @@ public class Test {
             return "Ошибка записи.";
         }
     }
+
     public static String readFile(HashMap<String, ArrayList<String>> list){
         try {
             BufferedReader reader = new BufferedReader(new FileReader("dictionary.txt"));
