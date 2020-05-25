@@ -124,6 +124,6 @@ public class Cases {
     public static String getMessage(boolean bool){
         if(bool)
             return "Правильно! ";
-        else return "Попробуйте снова: \n";
+        else return "Попробуйте снова: |Для остановки игры введите \"stop game\"|\n";
     }
 }

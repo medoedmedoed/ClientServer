@@ -163,7 +163,7 @@ public class Test {
         out.flush();
         str = in.readLine();
         System.out.println(str);
-        if(str.equals("Попробуйте снова: "))
+        if(str.equals("Попробуйте снова: |Для остановки игры введите \"stop game\"|"))
             System.out.println("Успешно!");
         else{
             System.out.println("Ошибка в работе функции start!\n_______________________________________");
@@ -176,7 +176,7 @@ public class Test {
         out.write("Пост" + "\n");
         out.flush();
         str = in.readLine();
-        if(str.equals("Правильно! Введите анаграмму к слову Стоп:")){
+        if(str.equals("Правильно! Введите анаграмму к слову Стоп: |Для остановки игры введите \"stop game\"|")){
             System.out.println("Функция start прошла проверку!\n_______________________________________");
             out.write("stop game" + "\n");
             out.flush();

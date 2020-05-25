@@ -41,7 +41,7 @@ public class Server {
                     {
                         bool = false;
                         key = cases.randomWord(list);                                   //в ключ записывается случайное значение из словаря
-                        out.write(mess + "Введите анаграмму к слову " + key + ":\n");
+                        out.write(mess + "Введите анаграмму к слову " + key + ": |Для остановки игры введите \"stop game\"|\n");
                         out.flush();
                         while(!bool) {                                                   //пока ответ неправильный
                             anagram = in.readLine();                                      //считываем ответ от клиента на выданное слово
